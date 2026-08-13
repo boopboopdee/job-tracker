@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Job Tracker</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        🌻 Job Tracker
+    </div>
+
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/jobs">Jobs</a>
+        <a href="/favorites">Favorites</a>
+        <a href="/applications">Applications</a>
+        <a href="/companies">Companies</a>
+        <a href="/add-job">Add Job</a>
+        <a href="/analytics">Analytics</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    {% block content %}
+
+    {% endblock %}
+
+</div>
+
+</body>
+
+</html>

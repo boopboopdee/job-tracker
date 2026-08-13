@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="dashboard-title">
+    🌻 Scan Results
+</h1>
+
+{% if result %}
+<div class="search-section card">
+    <div class="search-header">
+        <h2>📊 Scraper Summary</h2>
+        <p>Found <strong>{{ result.added }}</strong> new matching jobs across {{ result.companies }} companies.</p>
+    </div>
+    
+    <div class="dashboard-grid" style="margin-top: 20px; width: 100%;">
+        <div class="stat-card">
+            <h3>Total Found</h3>
+            <p class="stat-number">{{ result.found }}</p>
+        </div>
+        <div class="stat-card">
+            <h3>Matching</h3>
+            <p class="stat-number">{{ result.matching }}</p>
+        </div>
+        <div class="stat-card applied">
+            <h3>Added</h3>
+            <p class="stat-number">{{ result.added }}</p>
+        </div>
+        <div class="stat-card rejected">
+            <h3>Duplicates</h3>
+            <p class="stat-number">{{ result.duplicates }}</p>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="card chart-card">
+    <h2>📋 Newly Added Jobs</h2>
+    {% if jobs %}
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Title</th>
+                <th>Location</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td><strong>{{ job.company }}</strong></td>
+                <td>{{ job.title }}</td>
+                <td>
+                    <span class="location-tag">{{ job.location }}</span>
+                </td>
+                <td>
+                    <a href="{{ job.url }}" target="_blank" class="btn-sm">View & Apply</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No new jobs were added during this scan. They might be duplicates or didn't match keywords.</p>
+    {% endif %}
+</div>
+
+<div style="text-align: center; margin-top: 30px;">
+    <a href="/" class="btn-primary" style="text-decoration: none;">Return to Dashboard</a>
+</div>
+
+<style>
+    .location-tag {
+        background: #fef3c7;
+        color: #92400e;
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    .btn-sm {
+        font-size: 13px;
+        background: #f4c430;
+        color: #5c3b00;
+        padding: 6px 12px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+    .btn-sm:hover {
+        background: #d97706;
+        color: white;
+    }
+</style>
+
+{% endblock %}

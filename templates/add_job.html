@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add Job</h1>
+
+<form method="POST">
+
+
+<label>
+Company
+</label>
+
+<br>
+
+<input
+type="text"
+name="company"
+required>
+
+<br><br>
+
+
+
+<label>
+Job Title
+</label>
+
+<br>
+
+<input
+type="text"
+name="title"
+required>
+
+<br><br>
+
+
+
+<label>
+Location
+</label>
+
+<br>
+
+<input
+type="text"
+name="location">
+
+<br><br>
+
+
+
+<label>
+Remote Status
+</label>
+
+<br>
+
+<select name="remote">
+
+    <option value="Remote">
+        Remote
+    </option>
+
+    <option value="Hybrid">
+        Hybrid
+    </option>
+
+    <option value="On-site">
+        On-site
+    </option>
+
+</select>
+
+<br><br>
+
+
+
+<label>
+Salary
+</label>
+
+<br>
+
+<input
+type="text"
+name="salary">
+
+<br><br>
+
+
+
+<label>
+Application Link
+</label>
+
+<br>
+
+<input
+type="text"
+name="url"
+placeholder="https://company.com/job">
+
+<br><br>
+
+
+
+<button type="submit">
+
+Save Job
+
+</button>
+
+
+</form>
+
+
+{% endblock %}

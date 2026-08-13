@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<h1>⭐ Saved Jobs</h1>
+
+
+{% for job in jobs %}
+
+<div class="job-card">
+
+<h3>{{ job["title"] }}</h3>
+
+<p>{{ job["company"] }}</p>
+
+<p>{{ job["location"] }}</p>
+
+<a href="{{ job["url"] }}" target="_blank">
+View Job
+</a>
+
+</div>
+
+
+{% endfor %}
+
+
+{% endblock %}

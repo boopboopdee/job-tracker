@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<h1>
+Edit Company
+</h1>
+
+
+<form method="POST"
+action="/edit-company/{{company.id}}">
+
+
+<label>
+Company Name
+</label>
+
+<input
+type="text"
+name="name"
+value="{{company.name}}"
+>
+
+
+<br><br>
+
+
+<label>
+Platform
+</label>
+
+<input
+type="text"
+name="platform"
+value="{{company.platform}}"
+>
+
+
+<br><br>
+
+
+<label>
+Parser Type
+</label>
+
+<input
+type="text"
+name="parser_type"
+value="{{company.parser_type}}"
+>
+
+
+<br><br>
+
+
+<label>
+Board
+</label>
+
+<input
+type="text"
+name="board"
+value="{{company.board}}"
+>
+
+
+<br><br>
+
+
+<label>
+Career URL
+</label>
+
+<input
+type="text"
+name="url"
+value="{{company.url}}"
+>
+
+
+<br><br>
+
+
+<button type="submit">
+
+Save Changes
+
+</button>
+
+
+<a href="/companies">
+
+Cancel
+
+</a>
+
+
+</form>
+
+
+{% endblock %}

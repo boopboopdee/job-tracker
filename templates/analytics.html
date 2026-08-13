@@ -1,0 +1,715 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<h1 class="dashboard-title">
+    📊 Job Analytics
+</h1>
+
+
+
+<div class="analytics-grid">
+
+
+<!-- =========================
+     LOCATION CHART
+========================= -->
+
+<div class="analytics-card">
+
+<h2>📍 Job Locations</h2>
+
+
+<div class="chart-toggles">
+
+<button class="toggle-btn active"
+onclick="updateChart('all',this)">
+All
+</button>
+
+
+<button class="toggle-btn"
+onclick="updateChart('nevada',this)">
+Nevada
+</button>
+
+
+<button class="toggle-btn"
+onclick="updateChart('remote',this)">
+Remote
+</button>
+
+
+<button class="toggle-btn"
+onclick="sortChart(locationChart,'value',this)">
+By Jobs
+</button>
+
+
+<button class="toggle-btn"
+onclick="sortChart(locationChart,'label',this)">
+A-Z
+</button>
+
+
+</div>
+
+
+<div class="canvas-wrapper">
+
+<canvas id="locationChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- =========================
+     TREND CHART
+========================= -->
+
+
+<div class="analytics-card">
+
+<h2>📈 Jobs Added Trend</h2>
+
+
+<div class="chart-toggles">
+
+<button class="toggle-btn"
+onclick="updateTrend(7,this)">
+7 Days
+</button>
+
+
+<button class="toggle-btn active"
+onclick="updateTrend(14,this)">
+14 Days
+</button>
+
+
+<button class="toggle-btn"
+onclick="updateTrend(30,this)">
+30 Days
+</button>
+
+
+</div>
+
+
+<div class="canvas-wrapper">
+
+<canvas id="trendChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- =========================
+     COMPANY CHART
+========================= -->
+
+
+<div class="analytics-card">
+
+<h2>🏢 Top Companies</h2>
+
+
+<div class="chart-toggles">
+
+
+<button class="toggle-btn active"
+onclick="sortChart(companyChart,'value',this)">
+By Jobs
+</button>
+
+
+<button class="toggle-btn"
+onclick="sortChart(companyChart,'label',this)">
+A-Z
+</button>
+
+
+</div>
+
+
+<div class="canvas-wrapper">
+
+<canvas id="companyChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =========================
+     CATEGORY CHART
+========================= -->
+
+
+<div class="analytics-card">
+
+<h2>🏷 Categories</h2>
+
+
+<div class="chart-toggles">
+
+<button class="toggle-btn active"
+onclick="sortChart(categoryChart,'value',this)">
+By Jobs
+</button>
+
+
+<button class="toggle-btn"
+onclick="sortChart(categoryChart,'label',this)">
+A-Z
+</button>
+
+
+</div>
+
+
+<div class="canvas-wrapper">
+
+<canvas id="categoryChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =========================
+     STATUS CHART
+========================= -->
+
+
+<div class="analytics-card">
+
+
+<h2>📊 Application Status</h2>
+
+
+<div class="chart-toggles">
+
+
+<button class="toggle-btn active"
+onclick="updateStatus('all',this)">
+All
+</button>
+
+
+<button class="toggle-btn"
+onclick="updateStatus('active',this)">
+Active
+</button>
+
+
+</div>
+
+
+<div class="canvas-wrapper">
+
+<canvas id="statusChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- =========================
+     REMOTE CHART
+========================= -->
+
+
+<div class="analytics-card">
+
+
+<h2>🏠 Remote vs On-site</h2>
+
+
+<div class="canvas-wrapper">
+
+<canvas id="remoteChart"></canvas>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+
+const locationData =
+{{location_counts|tojson|safe}};
+
+
+const trendData =
+{{trend_data|tojson|safe}};
+
+
+const companyData =
+{{companies[:10]|tojson|safe}};
+
+
+const categoryData =
+{{categories|tojson|safe}};
+
+
+const statusData =
+{{counts|tojson|safe}};
+
+
+const remoteData =
+{{remote_breakdown|tojson|safe}};
+
+
+
+const colors=[
+'#f4c430',
+'#eab308',
+'#d97706',
+'#b8860b',
+'#8b5a00',
+'#78350f'
+];
+
+
+
+
+
+// LOCATION
+
+const locationChart =
+new Chart(
+document.getElementById("locationChart"),
+{
+
+type:"bar",
+
+data:{
+
+labels:Object.keys(locationData),
+
+datasets:[{
+
+data:Object.values(locationData),
+
+backgroundColor:colors
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+
+
+
+
+
+// TREND
+
+
+const trendChart =
+new Chart(
+document.getElementById("trendChart"),
+{
+
+type:"line",
+
+data:{
+
+labels:Object.keys(trendData).slice(-14),
+
+datasets:[{
+
+data:Object.values(trendData).slice(-14),
+
+fill:true,
+
+tension:.4
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+
+
+
+
+
+
+// COMPANY
+
+
+const companyChart =
+new Chart(
+document.getElementById("companyChart"),
+{
+
+type:"bar",
+
+data:{
+
+labels:companyData.map(x=>x.company),
+
+datasets:[{
+
+data:companyData.map(x=>x.total),
+
+backgroundColor:"#d97706"
+
+}]
+
+},
+
+options:{
+
+indexAxis:"y",
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+
+
+
+
+
+// CATEGORY
+
+
+const categoryChart =
+new Chart(
+document.getElementById("categoryChart"),
+{
+
+type:"pie",
+
+data:{
+
+labels:categoryData.map(x=>x.category),
+
+datasets:[{
+
+data:categoryData.map(x=>x.total),
+
+backgroundColor:colors
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+
+
+
+
+
+
+// STATUS
+
+
+const statusChart =
+new Chart(
+document.getElementById("statusChart"),
+{
+
+type:"doughnut",
+
+data:{
+
+labels:Object.keys(statusData),
+
+datasets:[{
+
+data:Object.values(statusData)
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+
+
+
+
+
+
+// REMOTE
+
+
+const remoteChart =
+new Chart(
+document.getElementById("remoteChart"),
+{
+
+type:"pie",
+
+data:{
+
+labels:Object.keys(remoteData),
+
+datasets:[{
+
+data:Object.values(remoteData)
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+maintainAspectRatio:false
+
+}
+
+}
+
+);
+
+
+
+
+
+function updateChart(filter,btn){
+
+
+let labels=[];
+let data=[];
+
+
+if(filter==="all"){
+
+labels=Object.keys(locationData);
+data=Object.values(locationData);
+
+}
+
+
+if(filter==="nevada"){
+
+labels=["Las Vegas","Henderson","Nevada"];
+
+data=labels.map(
+x=>locationData[x]
+);
+
+}
+
+
+if(filter==="remote"){
+
+labels=["Remote"];
+
+data=[locationData.Remote];
+
+}
+
+
+locationChart.data.labels=labels;
+
+locationChart.data.datasets[0].data=data;
+
+locationChart.update();
+
+
+}
+
+
+
+
+
+function updateTrend(days,btn){
+
+trendChart.data.labels=
+Object.keys(trendData).slice(-days);
+
+
+trendChart.data.datasets[0].data=
+Object.values(trendData).slice(-days);
+
+
+trendChart.update();
+
+}
+
+
+
+
+function updateStatus(filter,btn){
+
+
+let labels=Object.keys(statusData);
+
+let data=Object.values(statusData);
+
+
+
+if(filter==="active"){
+
+labels=["New","Interviewing"];
+
+data=[
+statusData.New,
+statusData.Interviewing
+];
+
+}
+
+
+statusChart.data.labels=labels;
+
+statusChart.data.datasets[0].data=data;
+
+statusChart.update();
+
+
+}
+
+
+
+
+
+function sortChart(chart,type,btn){
+
+
+let combined =
+chart.data.labels.map(
+(label,index)=>({
+
+label:label,
+
+value:chart.data.datasets[0].data[index]
+
+})
+
+);
+
+
+
+if(type==="label"){
+
+combined.sort(
+(a,b)=>a.label.localeCompare(b.label)
+);
+
+}
+
+else{
+
+combined.sort(
+(a,b)=>b.value-a.value
+);
+
+}
+
+
+
+chart.data.labels =
+combined.map(x=>x.label);
+
+
+chart.data.datasets[0].data =
+combined.map(x=>x.value);
+
+
+
+chart.update();
+
+
+}
+
+
+</script>
+
+
+{% endblock %}

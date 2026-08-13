@@ -1,0 +1,63 @@
+<!-- ---------------------------------
+     ADD COMPANY PAGE
+---------------------------------->
+
+
+<h1>
+Add Company Scanner
+</h1>
+
+
+<form method="POST">
+
+
+<input
+
+type="text"
+
+name="url"
+
+placeholder="Paste career URL"
+
+style="width:400px"
+
+>
+
+
+<button>
+
+Add Company
+
+</button>
+
+
+</form>
+
+
+
+{% if result %}
+
+
+<h2>
+Company Added
+</h2>
+
+
+<p>
+{{result.name}}
+</p>
+
+
+<p>
+Platform:
+{{result.platform}}
+</p>
+
+
+<p>
+Board:
+{{result.board}}
+</p>
+
+
+{% endif %}

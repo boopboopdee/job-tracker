@@ -1,0 +1,704 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<h1>
+    Jobs
+</h1>
+
+
+<!-- ==================================
+     SEARCH BAR
+================================== -->
+
+
+
+
+
+
+
+
+
+<!-- ==================================
+FILTER PANEL
+================================== -->
+
+<div class="filter-panel">
+
+<form method="GET">
+
+<input
+type="hidden"
+name="page"
+value="1"
+>
+
+
+<!-- =========================
+     SEARCH
+========================= -->
+
+<input
+
+type="text"
+
+name="search"
+
+value="{{search}}"
+
+placeholder="Search jobs..."
+
+>
+
+
+<button type="submit">
+
+🔍 Search
+
+</button>
+
+
+
+<div class="filter-dropdowns">
+
+
+<!-- =========================
+     COMPANY FILTER
+========================= -->
+
+<details>
+
+<summary>
+Companies
+</summary>
+
+
+{% for company in filters.companies %}
+
+<label>
+
+<input
+type="checkbox"
+name="company"
+value="{{company}}"
+
+{% if company in selected_companies %}
+checked
+{% endif %}
+
+>
+
+{{company}}
+
+</label>
+
+<br>
+
+{% endfor %}
+
+
+</details>
+
+
+
+<!-- =========================
+     STATUS FILTER
+========================= -->
+
+<details>
+
+<summary>
+Status
+</summary>
+
+
+{% for status in filters.statuses %}
+
+<label>
+
+<input
+type="checkbox"
+name="status"
+value="{{status}}"
+
+{% if status in selected_statuses %}
+checked
+{% endif %}
+
+>
+
+{{status}}
+
+</label>
+
+<br>
+
+{% endfor %}
+
+
+</details>
+
+
+
+<!-- =========================
+     REMOTE FILTER
+========================= -->
+
+<details>
+
+<summary>
+Remote
+</summary>
+
+
+{% for remote in filters.remote_types %}
+
+<label>
+
+<input
+type="checkbox"
+name="remote"
+value="{{remote}}"
+
+{% if remote in selected_remote %}
+checked
+{% endif %}
+
+>
+
+{{remote}}
+
+</label>
+
+<br>
+
+{% endfor %}
+
+
+</details>
+
+
+<!-- ==================================
+     SORT CONTROLS
+================================== -->
+
+
+<h3>Sorting</h3>
+
+
+<select name="primary_sort">
+
+<option value="date_found"
+{% if primary_sort=="date_found" %}
+selected
+{% endif %}
+>
+Newest Added
+</option>
+
+
+<option value="company"
+{% if primary_sort=="company" %}
+selected
+{% endif %}
+>
+Company
+</option>
+
+
+<option value="title"
+{% if primary_sort=="title" %}
+selected
+{% endif %}
+>
+Title
+</option>
+
+
+<option value="salary"
+{% if primary_sort=="salary" %}
+selected
+{% endif %}
+>
+Salary
+</option>
+
+
+<option value="status"
+{% if primary_sort=="status" %}
+selected
+{% endif %}
+>
+Status
+</option>
+
+
+<option value="favorite"
+{% if primary_sort=="favorite" %}
+selected
+{% endif %}
+>
+Favorite
+</option>
+
+
+</select>
+
+
+<select name="primary_direction">
+
+
+<option value="DESC"
+{% if primary_direction=="DESC" %}
+selected
+{% endif %}
+>
+Descending
+</option>
+
+
+<option value="ASC"
+{% if primary_direction=="ASC" %}
+selected
+{% endif %}
+>
+Ascending
+</option>
+
+
+</select>
+
+
+
+<select name="secondary_sort">
+
+<option value="">
+No Secondary Sort
+</option>
+
+<option value="date_found">
+Newest Added
+</option>
+
+<option value="company">
+Company
+</option>
+
+<option value="title">
+Title
+</option>
+
+<option value="salary">
+Salary
+</option>
+
+<option value="status">
+Status
+</option>
+
+
+</select>
+
+
+<select name="secondary_direction">
+
+
+<option value="DESC"
+{% if secondary_direction=="DESC" %}
+selected
+{% endif %}
+>
+Descending
+</option>
+
+
+<option value="ASC"
+{% if secondary_direction=="ASC" %}
+selected
+{% endif %}
+>
+Ascending
+</option>
+
+
+</select>
+
+
+
+<button type="submit">
+Apply Filters & Sort
+</button>
+
+
+</form>
+
+
+
+
+
+<!-- ==================================
+     JOB TABLE
+================================== -->
+
+
+<table id="jobsTable">
+
+
+<thead>
+
+
+<tr>
+
+
+<th>
+
+<a href="?{{query_string}}&primary_sort=company&primary_direction=ASC">
+Company
+</a>
+
+</th>
+
+
+<th>
+
+<a href="?{{query_string}}&primary_sort=title&primary_direction=ASC">
+Title
+</a>
+
+</th>
+
+
+<th>
+
+<a href="?{{query_string}}&primary_sort=location&primary_direction=ASC">
+Location
+</a>
+
+</th>
+
+
+<th>
+Remote
+</th>
+
+
+<th>
+Salary
+</th>
+
+
+<th>
+Status
+</th>
+
+
+<th>
+Source
+</th>
+
+
+<th>
+Date Found
+</th>
+
+
+<th>
+Favorite
+</th>
+
+
+<th>
+Apply
+</th>
+
+
+<th>
+Actions
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+<tbody>
+
+
+
+{% for job in jobs %}
+
+
+
+<tr>
+
+
+
+<td>
+{{job.company}}
+</td>
+
+
+
+<td>
+{{job.title}}
+</td>
+
+
+
+<td>
+{{job.location}}
+</td>
+
+
+
+<td>
+{{job.remote}}
+</td>
+
+
+
+<td>
+{{job.salary}}
+</td>
+
+
+
+<td>
+{{job.status}}
+</td>
+
+
+
+<td>
+{{job.job_source}}
+</td>
+
+
+
+<td>
+{{job.date_found}}
+</td>
+
+
+
+
+<td>
+
+
+{% if job.favorite == 1 %}
+
+⭐ Saved
+
+{% else %}
+
+Not Saved
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td>
+
+
+{% if job.url %}
+
+<a href="{{job.url}}" target="_blank">
+Apply
+</a>
+
+
+{% else %}
+
+No Link
+
+{% endif %}
+
+
+</td>
+
+
+
+
+<td>
+
+
+<a href="/update-status/{{job.id}}/Applied">
+Applied
+</a>
+
+
+<br>
+
+
+<a href="/edit/{{job.id}}">
+Edit
+</a>
+
+
+<br>
+
+
+<a href="/favorite/{{job.id}}">
+⭐
+</a>
+
+
+<br>
+
+
+<a
+href="/delete/{{job.id}}"
+onclick="return confirm('Delete job?')"
+>
+Delete
+</a>
+
+
+
+</td>
+
+
+
+</tr>
+
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+
+<!-- ==================================
+     PAGINATION
+================================== -->
+
+
+<div class="pagination">
+
+
+{% if page > 1 %}
+
+<a href="?{{query_string}}&page={{page-1}}">
+Previous
+</a>
+
+{% endif %}
+
+
+
+Page {{page}} / {{total_pages}}
+
+
+
+{% if page < total_pages %}
+
+<a href="?{{query_string}}&page={{page+1}}">
+Next
+</a>
+
+{% endif %}
+
+
+</div>
+
+
+
+
+
+<style>
+
+
+#jobsTable {
+
+
+width:100%;
+border-collapse:collapse;
+
+
+}
+
+
+
+#jobsTable th {
+
+
+cursor:pointer;
+background:#eab308;
+color:white;
+padding:10px;
+
+
+}
+
+
+
+#jobsTable td {
+
+
+padding:10px;
+border-bottom:1px solid #ddd;
+
+
+}
+
+
+
+#jobsTable input,
+#jobsTable select {
+
+
+width:90%;
+padding:5px;
+
+
+}
+
+
+
+#jobsTable tr:hover {
+
+
+background:#f5f5dc;
+
+
+}
+
+
+
+.pagination {
+
+
+margin-top:20px;
+
+
+}
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+{% endblock %}

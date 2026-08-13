@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<!-- ---------------------------------
+     PAGE TITLE
+---------------------------------- -->
+
+<h1 class="dashboard-title">
+    🌻 Job Search Dashboard
+</h1>
+
+
+
+<!-- ---------------------------------
+     LIVE JOB SEARCH SECTION
+---------------------------------- -->
+
+<div class="search-section card">
+
+    <div class="search-header">
+
+        <h2>
+            🔎 Search Live Jobs
+        </h2>
+
+
+        <p>
+            Search company career pages for new jobs in real-time.
+        </p>
+
+    </div>
+
+
+    <div class="search-controls">
+
+        <button id="scan-button" class="btn-primary">
+            Start Live Scan
+        </button>
+
+
+        <div id="scan-status"
+             class="status-indicator"
+             style="display:none;">
+
+
+            <div class="spinner"></div>
+
+            <span>
+                Scanning...
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+
+    <div id="scan-results"
+         class="mini-results"
+         style="display:none;">
+
+
+        <h3>
+            New Jobs Found:
+        </h3>
+
+
+        <ul id="new-jobs-list"></ul>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- ---------------------------------
+     JOB SUMMARY CARDS
+---------------------------------- -->
+
+
+<div class="dashboard-grid">
+
+
+    <div class="stat-card">
+
+        <h3>
+            Total Jobs
+        </h3>
+
+        <p class="stat-number">
+            {{ total_jobs }}
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-card today">
+
+        <h3>
+            Jobs Added Today
+        </h3>
+
+
+        <p class="stat-number">
+            {{ jobs_today }}
+        </p>
+
+
+    </div>
+
+
+
+    <div class="stat-card applied">
+
+        <h3>
+            Applied
+        </h3>
+
+        <p class="stat-number">
+            {{ counts["Applied"] }}
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-card interview">
+
+        <h3>
+            Interviews
+        </h3>
+
+        <p class="stat-number">
+            {{ counts["Interviewing"] }}
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-card rejected">
+
+        <h3>
+            Rejected
+        </h3>
+
+        <p class="stat-number">
+            {{ counts["Rejected"] }}
+        </p>
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- ---------------------------------
+     LIVE SCAN SCRIPT ONLY
+---------------------------------- -->
+
+
+<script>
+
+
+document.getElementById('scan-button')
+.addEventListener('click', function(){
+
+
+    const btn=this;
+
+    const status=document.getElementById('scan-status');
+
+    const resultsDiv=document.getElementById('scan-results');
+
+    const list=document.getElementById('new-jobs-list');
+
+
+
+    btn.disabled=true;
+
+    status.style.display='flex';
+
+    resultsDiv.style.display='block';
+
+
+    list.innerHTML=
+    '<li>Initializing scanner...</li>';
+
+
+
+    const eventSource =
+    new EventSource('/search-live');
+
+
+
+    eventSource.onmessage=function(event){
+
+
+        const data =
+        JSON.parse(event.data);
+
+
+
+        if(data.type==="progress"){
+
+
+            status.querySelector("span")
+            .innerText =
+            `Scanning (${data.current}/${data.total}): ${data.company}`;
+
+
+
+            list.innerHTML =
+            `<li>
+            Checking ${data.company}
+            (${data.added} new jobs)
+            </li>`;
+
+
+        }
+
+
+
+        else if(data.type==="complete"){
+
+
+            eventSource.close();
+
+
+            status.querySelector("span")
+            .innerText =
+            "Scan Complete!";
+
+
+            btn.disabled=false;
+
+
+
+            if(data.result.new_job_details.length){
+
+
+                list.innerHTML =
+                data.result.new_job_details.map(job =>
+
+                `<li>
+                🆕 ${job.company}:
+                ${job.title}
+                <a href="${job.url}" target="_blank">
+                View
+                </a>
+                </li>`
+
+                ).join("");
+
+
+
+            }
+
+            else {
+
+
+                list.innerHTML =
+                "<li>No new jobs found.</li>";
+
+            }
+
+
+        }
+
+
+    };
+
+
+
+});
+
+
+</script>
+
+
+{% endblock %}

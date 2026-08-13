@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+
+<!-- ---------------------------------
+COMPANY MANAGEMENT PAGE
+---------------------------------- -->
+
+
+<h1>
+Company Search Sources
+</h1>
+
+
+
+<!-- ---------------------------------
+ADD COMPANY BY URL
+---------------------------------- -->
+
+
+<form method="POST"
+action="/add-company">
+
+
+<input
+
+name="url"
+
+placeholder="Paste Career Page URL"
+
+required
+
+>
+
+
+<button>
+
+Add Company
+
+</button>
+
+
+</form>
+
+
+
+<hr>
+
+<form method="GET"
+action="/sync-companies">
+
+<button>
+
+Sync Scraper Companies
+
+</button>
+
+</form>
+
+
+
+<!-- ---------------------------------
+COMPANY LIST
+---------------------------------- -->
+
+
+<table>
+
+
+<tr>
+
+<th>
+Company
+</th>
+
+
+<th>
+Platform
+</th>
+
+
+<th>
+Parser
+</th>
+
+
+<th>
+Board
+</th>
+
+
+<th>
+URL
+</th>
+
+
+<th>
+Active
+</th>
+
+<th>
+Actions
+</th>
+
+
+</tr>
+
+
+
+
+{% for company in companies %}
+
+
+<tr>
+
+
+<td>
+
+{{ company.name }}
+
+</td>
+
+
+
+<td>
+
+{{ company.platform }}
+
+</td>
+
+
+
+<td>
+
+{{ company.parser_type }}
+
+</td>
+
+
+
+<td>
+
+{{ company.board }}
+
+</td>
+
+
+
+<td>
+
+{{ company.url }}
+
+</td>
+
+
+
+<td>
+
+{{company.active}}
+
+<td>
+
+
+<!-- SCAN -->
+
+<a href="/scan-company/{{company.id}}">
+
+<button>
+
+Scan Jobs
+
+</button>
+
+</a>
+
+
+
+<!-- EDIT -->
+
+<a href="/edit-company/{{company.id}}">
+
+<button>
+
+Edit
+
+</button>
+
+</a>
+
+
+
+<!-- DELETE -->
+
+<form method="POST"
+action="/delete-company/{{company.id}}"
+style="display:inline;">
+
+
+<button type="submit">
+
+Delete
+
+</button>
+
+
+</form>
+
+
+</td>
+
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</table>
+
+
+
+{% endblock %}

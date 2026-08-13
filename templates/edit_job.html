@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Edit Job</h1>
+
+<form method="POST">
+
+
+    <h3>
+        {{ job.company }} - {{ job.title }}
+    </h3>
+
+
+    <label>Status</label>
+
+    <select name="status">
+
+        <option 
+        value="New"
+        {% if job.status == "New" %}selected{% endif %}>
+            New
+        </option>
+
+
+        <option 
+        value="Saved"
+        {% if job.status == "Saved" %}selected{% endif %}>
+            Saved
+        </option>
+
+
+        <option 
+        value="Applied"
+        {% if job.status == "Applied" %}selected{% endif %}>
+            Applied
+        </option>
+
+
+        <option 
+        value="Interview"
+        {% if job.status == "Interview" %}selected{% endif %}>
+            Interview
+        </option>
+
+
+        <option 
+        value="Offer"
+        {% if job.status == "Offer" %}selected{% endif %}>
+            Offer
+        </option>
+
+
+        <option 
+        value="Rejected"
+        {% if job.status == "Rejected" %}selected{% endif %}>
+            Rejected
+        </option>
+
+
+    </select>
+
+
+    <br><br>
+
+
+    <label>Notes</label>
+
+    <br>
+
+    <textarea 
+    name="notes"
+    rows="8"
+    cols="50">{{ job.notes }}</textarea>
+
+
+    <br><br>
+
+
+    <button type="submit">
+        Update Job
+    </button>
+
+
+</form>
+
+
+<br>
+
+
+<a href="/jobs">
+    Back to Jobs
+</a>
+
+
+{% endblock %}
