@@ -51,7 +51,7 @@ def analytics():
 
     if state_filter:
         company_query += """
-            AND location LIKE ?
+            AND location LIKE %s
         """
 
         company_params.append(
@@ -61,7 +61,7 @@ def analytics():
     if remote_filter:
         company_query += """
             AND (
-                remote = ?
+                remote = %s
                 OR location LIKE '%Remote%'
             )
         """
@@ -167,7 +167,7 @@ def analytics():
     if state_filter:
 
         location_query += """
-            AND location LIKE ?
+            AND location LIKE %s
         """
 
         location_params.append(
@@ -178,7 +178,7 @@ def analytics():
 
         location_query += """
             AND (
-                remote = ?
+                remote = %s
                 OR location LIKE '%Remote%'
             )
         """
@@ -212,16 +212,14 @@ def analytics():
 
     cursor.execute(
         """
-        SELECT COUNT(*)
-
+        SELECT COUNT(*) AS total
         FROM jobs
-
         WHERE remote = 'Remote'
         OR location LIKE '%Remote%'
         """
     )
 
-    remote = cursor.fetchone()[0]
+    remote = cursor.fetchone()["total"]
 
 
     # ---------------------------------
@@ -230,12 +228,12 @@ def analytics():
 
     cursor.execute(
         """
-        SELECT COUNT(*)
+        SELECT COUNT(*) AS total
         FROM jobs
         """
     )
 
-    total_jobs = cursor.fetchone()[0]
+    total_jobs = cursor.fetchone()["total"]
 
 
     # ---------------------------------
@@ -258,16 +256,16 @@ def analytics():
     cursor.execute(
         """
         SELECT
-            date(date_found) AS date,
+            date_found::date AS date,
             COUNT(*) AS total
 
         FROM jobs
 
-        WHERE date_found >= date('now', '-30 days')
+        WHERE date_found::date >= CURRENT_DATE - INTERVAL '30 days'
 
-        GROUP BY date
+        GROUP BY date_found::date
 
-        ORDER BY date
+        ORDER BY date_found::date
         """
     )
 

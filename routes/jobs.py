@@ -27,8 +27,7 @@ def get_selected(name):
 # ---------------------------------
 
 def sql_placeholders(values):
-
-    return ",".join(["?"] * len(values))
+    return ",".join(["%s"] * len(values))
 
 
 # ---------------------------------
@@ -69,11 +68,8 @@ def get_filter_lists(cursor):
         """)
 
         filters[key] = [
-
-            row[0]
-
+            row[column]
             for row in cursor.fetchall()
-
         ]
 
     return filters
@@ -256,11 +252,11 @@ def jobs():
         for word in keywords:
             search_conditions.append("""
             (
-                company LIKE ?
-                OR title LIKE ?
-                OR location LIKE ?
-                OR salary LIKE ?
-                OR job_source LIKE ?
+                company LIKE %s
+                OR title LIKE %s
+                OR location LIKE %s
+                OR salary LIKE %s
+                OR job_source LIKE %s
             )
             """)
 
@@ -282,23 +278,23 @@ def jobs():
     # ---------------------------------
 
     if c_company:
-        filter_query += " AND company LIKE ?"
+        filter_query += " AND company LIKE %s"
         parameters.append(f"%{c_company}%")
 
     if c_title:
-        filter_query += " AND title LIKE ?"
+        filter_query += " AND title LIKE %s"
         parameters.append(f"%{c_title}%")
 
     if c_location:
-        filter_query += " AND location LIKE ?"
+        filter_query += " AND location LIKE %s"
         parameters.append(f"%{c_location}%")
 
     if c_salary:
-        filter_query += " AND salary LIKE ?"
+        filter_query += " AND salary LIKE %s"
         parameters.append(f"%{c_salary}%")
 
     if c_source:
-        filter_query += " AND job_source LIKE ?"
+        filter_query += " AND job_source LIKE %s"
         parameters.append(f"%{c_source}%")
 
     if c_favorite:
@@ -377,8 +373,12 @@ def jobs():
     # ---------------------------------
     # COUNT TOTAL
     # ---------------------------------
-    cursor.execute("SELECT COUNT(*) FROM jobs " + filter_query, parameters)
-    total_jobs = cursor.fetchone()[0]
+    cursor.execute(
+        "SELECT COUNT(*) AS total FROM jobs " + filter_query,
+        parameters
+    )
+
+    total_jobs = cursor.fetchone()["total"]
     total_pages = (total_jobs + per_page - 1) // per_page if total_jobs > 0 else 1
 
     # ---------------------------------
@@ -408,9 +408,9 @@ def jobs():
 
     ORDER BY {order_by}
 
-    LIMIT ?
+    LIMIT %s
 
-    OFFSET ?
+    OFFSET %s
 
     """
 
@@ -531,7 +531,7 @@ def add_job():
             status
             )
     
-            VALUES (?,?,?,?,?,?,?)
+            VALUES (%s,%s,%s,%s,%s,%s,%s)
     
             """,
 
@@ -569,7 +569,7 @@ def delete_job(id):
 
     cursor.execute(
 
-        "DELETE FROM jobs WHERE id=?",
+        "DELETE FROM jobs WHERE id=%s",
 
         (id,)
 
@@ -607,10 +607,10 @@ def edit_job(id):
         """
         UPDATE jobs
 
-        SET status=?,
-            notes=?
+        SET status=%s,
+            notes=%s
 
-        WHERE id=?
+        WHERE id=%s
 
         """,
         (
@@ -627,7 +627,7 @@ def edit_job(id):
 
 
     cursor.execute(
-        "SELECT * FROM jobs WHERE id=?",
+        "SELECT * FROM jobs WHERE id=%s",
         (id,)
     )
 
@@ -815,7 +815,7 @@ def favorite_job(id):
         END
 
 
-        WHERE id=?
+        WHERE id=%s
 
         """,
 
@@ -849,9 +849,9 @@ def update_status(id, status):
 
         UPDATE jobs
 
-        SET status=?
+        SET status=%s
 
-        WHERE id=?
+        WHERE id=%s
 
         """,
 

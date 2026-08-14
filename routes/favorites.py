@@ -48,7 +48,7 @@ def favorite(id):
     END
 
 
-    WHERE id=?
+    WHERE id=%s
 
     """,
 

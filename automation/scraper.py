@@ -328,7 +328,7 @@ def save_job(
             category
         )
 
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+        VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,?,?)
 
         """,
 

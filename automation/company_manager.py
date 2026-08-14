@@ -51,7 +51,7 @@ def add_company_from_url(url):
         parser_type
         )
 
-        VALUES (?,?,?,?,?,?)
+        VALUES (%s,%s,%s,%s,%s,%s)
 
         """,
 

@@ -49,14 +49,14 @@ def repair_companies():
 
             SET
 
-            platform=?,
+            platform=%s,
 
-            parser_type=?,
+            parser_type=%s,
 
-            board=?
+            board=%s
 
 
-            WHERE id=?
+            WHERE id=%s
 
             """,
 

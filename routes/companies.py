@@ -33,7 +33,7 @@ def sync_companies():
             """
             SELECT id
             FROM companies
-            WHERE name=?
+            WHERE name=%s
             """,
             (company["name"],)
         )
@@ -51,13 +51,13 @@ def sync_companies():
                 UPDATE companies
 
                 SET
-                    platform=?,
-                    board=?,
-                    url=?,
-                    parser_type=?,
+                    platform=%s,
+                    board=%s,
+                    url=%s,
+                    parser_type=%s,
                     active=1
 
-                WHERE name=?
+                WHERE name=%s
                 """,
                 (
                     company.get("platform"),
@@ -86,7 +86,7 @@ def sync_companies():
                     parser_type
                 )
 
-                VALUES (?,?,?,?,?,?)
+                VALUES (%s,%s,%s,%s,%s,%s)
                 """,
                 (
                     company["name"],
@@ -123,7 +123,7 @@ def scan_company(id):
         """
         SELECT *
         FROM companies
-        WHERE id=?
+        WHERE id=%s
         """,
         (id,)
     )
@@ -301,7 +301,7 @@ def add_company():
             parser_type
         )
 
-        VALUES (?,?,?,?,?,?)
+        VALUES (%s,%s,%s,%s,%s,%s)
         """,
         (
             name,
@@ -340,7 +340,7 @@ def edit_company_page(id):
 
         FROM companies
 
-        WHERE id=?
+        WHERE id=%s
 
         """,
         (id,)
@@ -395,7 +395,7 @@ def edit_company(id):
         UPDATE companies
 
         SET
-            name=?,
+            name=%s,
             platform=?,
             parser_type=?,
             board=?,

@@ -32,16 +32,16 @@ def job_exists(
 
         WHERE
 
-        url = ?
+        url = %s
 
         OR
 
         (
-            title = ?
+            title = %s
 
             AND
 
-            company = ?
+            company = %s
 
         )
 

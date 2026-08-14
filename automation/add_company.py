@@ -35,7 +35,7 @@ def add_company(url):
         active
         )
 
-        VALUES (?,?,?,?,?)
+        VALUES (%s,%s,%s,%s,%s)
 
         """,
 

@@ -52,9 +52,9 @@ def update_status(id,status):
         """
         UPDATE jobs
 
-        SET status=?
+        SET status=%s
 
-        WHERE id=?
+        WHERE id=%s
 
         """,
 

@@ -22,7 +22,7 @@ def get_jobs_by_status(status):
 
         FROM jobs
 
-        WHERE status=?
+        WHERE status=%s
 
         ORDER BY company
         """,
