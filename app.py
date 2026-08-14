@@ -3,7 +3,6 @@
 # ---------------------------------
 
 from flask import Flask
-
 from dotenv import load_dotenv
 
 import config
@@ -39,41 +38,30 @@ app.secret_key = config.SECRET_KEY
 # REGISTER ROUTES
 # ---------------------------------
 
-app.register_blueprint(
-    dashboard_bp
-)
+app.register_blueprint(dashboard_bp)
+app.register_blueprint(jobs_bp)
+app.register_blueprint(applications_bp)
+app.register_blueprint(status_bp)
+app.register_blueprint(favorites_bp)
+app.register_blueprint(admin_bp)
+app.register_blueprint(scraper_bp)
+app.register_blueprint(companies_bp)
+app.register_blueprint(analytics_bp)
 
-app.register_blueprint(
-    jobs_bp
-)
 
-app.register_blueprint(
-    applications_bp
-)
+# ---------------------------------
+# INITIALIZE DATABASE
+# ---------------------------------
 
-app.register_blueprint(
-    status_bp
-)
+try:
 
-app.register_blueprint(
-    favorites_bp
-)
+    from init_db import initialize_database
 
-app.register_blueprint(
-    admin_bp
-)
+    initialize_database()
 
-app.register_blueprint(
-    scraper_bp
-)
+except Exception as e:
 
-app.register_blueprint(
-    companies_bp
-)
-
-app.register_blueprint(
-    analytics_bp
-)
+    print("Database initialization error:", e)
 
 
 # ---------------------------------
