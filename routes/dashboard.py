@@ -194,19 +194,19 @@ def dashboard():
     cursor.execute(
         """
         SELECT
-            date(date_found) as date,
-            COUNT(*) as total
+            date_found::date AS date,
+            COUNT(*) AS total
         FROM jobs
-        WHERE date_found >= date('now', '-30 days')
-        GROUP BY date
-        ORDER BY date ASC
+        WHERE date_found::date >= CURRENT_DATE - INTERVAL '30 days'
+        GROUP BY date_found::date
+        ORDER BY date_found::date ASC
         """
     )
 
     trend_results = cursor.fetchall()
 
     trend_data = {
-        row["date"]: row["total"]
+        str(row["date"]): row["total"]
         for row in trend_results
     }
 
@@ -216,11 +216,13 @@ def dashboard():
 
     cursor.execute(
         """
-        SELECT COUNT(*) as total
+        SELECT COUNT(*) AS total
         FROM jobs
-        WHERE date(date_found) = date('now')
+        WHERE date_found::date = CURRENT_DATE
         """
     )
+
+    jobs_today = cursor.fetchone()["total"]
 
     jobs_today = cursor.fetchone()["total"]
 
