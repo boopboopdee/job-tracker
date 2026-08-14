@@ -270,7 +270,7 @@ def analytics():
     )
 
     trend_data = {
-        row["date"]: row["total"]
+        str(row["date"]): row["total"]
         for row in cursor.fetchall()
     }
 
