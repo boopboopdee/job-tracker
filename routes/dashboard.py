@@ -222,9 +222,8 @@ def dashboard():
         """
     )
 
-    jobs_today = cursor.fetchone()["total"]
-
-    jobs_today = cursor.fetchone()["total"]
+    row = cursor.fetchone()
+    jobs_today = row["total"] if row else 0
 
     connection.close()
 
