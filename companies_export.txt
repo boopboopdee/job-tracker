@@ -1,0 +1,43 @@
+Airbnb|greenhouse_api||airbnb||1
+DoorDash|greenhouse_api||doordashusa||1
+Salesforce|workday|||https://careers.salesforce.com|1
+Adobe|workday|||https://careers.adobe.com|1
+HubSpot|greenhouse_api||hubspot||1
+Netflix|greenhouse|greenhouse|netflix||0
+Reddit|greenhouse_api|greenhouse_api|reddit|https://boards.greenhouse.io/reddit|1
+Stripe|greenhouse_api||stripe||1
+Livenation|workday|workday|livenation|https://livenation.wd503.myworkdayjobs.com/en-US/LNExternalSite|1
+Playlist|greenhouse_api|greenhouse_api|playlist|https://www.playlist.com/careers/opportunities/4700953006|1
+Iheartmedia|workday|workday|iheartmedia|https://iheartmedia.wd5.myworkdayjobs.com/External_iHM/jobs|1
+Databricks|greenhouse_api||databricks||1
+Instacart|greenhouse_api|greenhouse_api|instacart|https://www.instacart.careers/current-openings|1
+Wayfair|custom|custom||https://www.wayfair.com/careers/jobs/?teamIds=1&gh_src=|1
+Nerdwallet|ashby|ashby|nerdwallet|https://jobs.ashbyhq.com/nerdwallet|1
+Coinbase|greenhouse_api||coinbase||1
+Pinterest|greenhouse_api||pinterest||1
+SeatGeek|greenhouse_api||seatgeek||1
+Vimeo|greenhouse_api||vimeo||1
+Athletics|greenhouse_api||athleticsbusinessops||1
+UFC|workday|workday|wwecorp|https://wwecorp.wd5.myworkdayjobs.com/en-US/UFC|1
+Legends Global|workday|workday|asmglobal|https://asmglobal.wd1.myworkdayjobs.com/en-US/careers|1
+Vegas.com|greenhouse_api|greenhouse|vdc|https://job-boards.greenhouse.io/vdc|1
+NBA|workday|workday|nbacareers|https://careers.nba.com/search-results|1
+Launch Potato|greenhouse|greenhouse|launch2|https://job-boards.greenhouse.io/launch2|1
+Headspace|greenhouse|greenhouse|hs|https://job-boards.greenhouse.io/hs|1
+Arcticwolf|workday|workday|arcticwolf|https://arcticwolf.wd1.myworkdayjobs.com/en-US/external/details/Marketing-Performance-Analyst_R26_760?redirect=/en-US/external/jobTasks/completed/application&locations=f6cfbd603ca11001f6249e3d8f5a0000|1
+Toggle Ai|ashby|ashby|toggle-ai|https://jobs.ashbyhq.com/togal-ai|1
+Wonder|workday|workday|wonder|https://wonder.wd1.myworkdayjobs.com/en-US/Grubhub_Careers/details/Strategic-Partnerships-Manager--SMB_JR101238|1
+Antenna|greenhouse|greenhouse|antenna|https://job-boards.greenhouse.io/antenna|1
+Play On|greenhouse|greenhouse|playonsports|https://job-boards.greenhouse.io/playonsports|1
+Lob|custom|custom||https://www.lob.com/careers#open-positions|1
+Cvshealth|workday|workday|cvshealth|https://cvshealth.wd1.myworkdayjobs.com/en-US/cvs_health_careers|1
+Streamlinehealthcare|workday|workday|streamlinehealthcare|https://streamlinehealthcare.wd501.myworkdayjobs.com/Streamline_Healthcare_External_Careers|1
+Nava|greenhouse|greenhouse|navapbc|https://job-boards.greenhouse.io/navapbc|1
+Wynd|workday|workday|wynd|https://wynd.wd5.myworkdayjobs.com/en-US/external|1
+Tines|greenhouse|greenhouse|tines|https://job-boards.greenhouse.io/tines|1
+A-Lign|greenhouse|greenhouse|align|https://job-boards.greenhouse.io/align|1
+Collectively |greenhouse|greenhouse|collectively|https://job-boards.greenhouse.io/collectively|1
+Tensorwave|ashby|ashby|tensorwave|https://jobs.ashbyhq.com/tensorwave|1
+Kapitus|greenhouse|greenhouse|kapitus|https://job-boards.greenhouse.io/kapitus|1
+Insightsoftware|workday|workday||https://insightsoftware.com/careers/|1
+Magnitudesoftware|workday|workday|magnitudesoftware|https://magnitudesoftware.wd1.myworkdayjobs.com/en-US/External|1
